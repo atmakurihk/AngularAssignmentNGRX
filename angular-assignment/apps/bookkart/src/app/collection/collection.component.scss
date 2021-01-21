@@ -1,0 +1,23 @@
+.content {
+  padding: 16px;
+  margin: 2% 20%;
+}
+
+.content > mat-card {
+  width: 200px;
+}
+
+.content >p{
+  display: inline;
+}
+
+.mat-card-sm-image {
+  max-height: 100px;
+  float: right;
+  margin-left: auto;
+}
+
+.billing
+{
+  float: right;
+}

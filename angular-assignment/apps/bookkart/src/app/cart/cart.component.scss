@@ -1,0 +1,21 @@
+.content {
+  padding: 16px;
+  margin: 2% 20%;
+}
+
+.content > mat-card {
+  width: 200px;
+}
+
+.mat-icon
+{
+  float: right;
+  margin-right: 5%;
+  cursor: pointer;
+}
+
+.mat-card-sm-image {
+  max-height: 100px;
+  float: right;
+  margin-left: auto;
+}

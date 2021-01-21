@@ -1,0 +1,23 @@
+<div class="content">
+  <div fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center">
+    <div fxFlex="50%" *ngFor="let book of booksCollection;let i =index">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{book.bookData.volumeInfo.title}}</mat-card-title>
+          <img mat-card-sm-image src="{{book.bookData.volumeInfo.imageLinks.smallThumbnail}}" />
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{book.bookData.volumeInfo.description | truncate}}</p>
+        </mat-card-content>
+        <mat-card-footer style="text-align: left;">
+          <b> Written By:</b>
+          <p>{{book.bookData.volumeInfo.authors | authorTransform}}</p>
+          <b>Billing Address:</b>
+          <p><b>Name:</b>{{book.billingAddress.name}}</p>
+          <p><b>Email:</b>{{book.billingAddress.email}}</p>
+          <p><b>Mobile:</b>{{book.billingAddress.mobile}}</p>
+          <p><b>Address:</b>{{book.billingAddress.address}}</p>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>

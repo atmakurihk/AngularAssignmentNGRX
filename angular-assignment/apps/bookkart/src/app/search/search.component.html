@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="center none">
+
+  <form class="example-form" (ngSubmit)="searchBooks()">
+    <mat-form-field class="example-full-width">
+      <mat-label>Search for a book</mat-label>
+      <input matInput class="form-control" name="search" placeholder="search" [(ngModel)]="searchString">
+      <mat-icon matSuffix (click)="searchBooks()">search</mat-icon>
+    </mat-form-field>
+  </form>
+
+</div>
+<div fxLayout="row" fxLayoutAlign="center none">
+  <angular-assignment-book-list></angular-assignment-book-list>
+</div>

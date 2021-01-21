@@ -1,0 +1,28 @@
+<div class="bookLayout" fxLayout="row" fxLayoutAlign="center none">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{title}}</mat-card-title>
+      <img mat-card-sm-image src="{{image}}" />
+    </mat-card-header>
+    <mat-card-content>
+      <p><b>Rating:&nbsp;</b></p><span>
+        <angular-assignment-star-rating [rating]="averageRating"></angular-assignment-star-rating>
+      </span>
+      <p> <b>Publisher:&nbsp;</b><span>{{publisher}}</span></p>
+      <p><b>Page Count:&nbsp;</b><span>{{pageCount}}</span></p>
+      <p> <b>Language:&nbsp;</b><span>{{language}}</span></p>
+      <p>{{description}}</p>
+    </mat-card-content>
+    <mat-card-footer style="text-align: left;">
+      <p><b> Written By:</b></p>
+      <p>{{authors | authorTransform}}</p>
+    </mat-card-footer>
+    <mat-card-actions>
+
+      <button mat-button color="primary" (click)="addToCart()">ADD TO CART</button>
+      <button mat-button color="primary" (click)="buyNow()">BUY</button>
+
+    </mat-card-actions>
+  </mat-card>
+
+</div>

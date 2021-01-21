@@ -1,0 +1,51 @@
+<div class="example-container">
+  <div fxLayout="row" fxFlexAlign="center">
+    <div fxFlexOffset="50" fxFlex="70">
+      <h1>Billing info</h1>
+    </div>
+  </div>
+  <form [formGroup]="billingForm" (ngSubmit)="submitBill()">
+    <div fxLayout="row" fxFlexAlign="center">
+      <div fxFlexOffset="20" fxFlex="70">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your Name</mat-label>
+          <input matInput class="form-control" formControlName="name" required>
+          <mat-error *ngIf="billingForm.controls.name.invalid">Invalid Name</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlexOffset="20" fxFlex="70">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your email</mat-label>
+          <input matInput placeholder="abc@example.com" formControlName="email" required>
+          <mat-error *ngIf="billingForm.controls.email.invalid">Invalid Email</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlexOffset="20" fxFlex="70">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your Mobile Number</mat-label>
+          <input matInput formControlName="mobile" required>
+          <mat-error *ngIf="billingForm.controls.mobile.invalid">Invalid Mobile Number</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlexOffset="20" fxFlex="70">
+        <mat-form-field appearance="fill">
+          <mat-label>Address</mat-label>
+          <textarea matInput formControlName="address" required></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxFlexAlign="center">
+      <div fxFlexOffset="50" fxFlex="70">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!billingForm.valid">Submit</button>
+        &nbsp;
+        <button mat-raised-button color="primary" type="button" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

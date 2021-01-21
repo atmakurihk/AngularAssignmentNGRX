@@ -1,0 +1,47 @@
+<mat-toolbar color="primary">
+  <div fxShow="true" fxHide.gt-sm="true">
+    <a  (click)="sidenav.toggle()">
+      <mat-icon color="accent">toc</mat-icon>
+    </a>
+  </div>
+  <span>BookKart</span>
+  <span class="spacer">
+
+  </span>
+
+  <div fxShow="true" fxHide.lt-md="true">
+    <a routerLink="/search" mat-button>
+      <mat-icon color="accent">search</mat-icon> Search
+    </a>
+    <a mat-button routerLink="/cart">
+      <mat-icon matBadge="{{cartCount}}" matBadgePosition="before" matBadgeColor="accent"
+        matBadgeHidden="{{cartCount === 0}}" color="accent">shopping_cart</mat-icon>Cart
+    </a>
+    <a mat-button routerLink="/collection">
+      <mat-icon matBadge="{{collectionCount}}" matBadgePosition="before" matBadgeColor="accent"
+        matBadgeHidden="{{collectionCount === 0}}" color="accent">collections_bookmark</mat-icon>My Collection
+    </a>
+  </div>
+</mat-toolbar>
+<div style="height: calc(100vh - 64px);">
+  <mat-drawer-container class="example-container" fxFlexFill>
+    <mat-drawer #sidenav mode="side" fxLayout="column" fxHide.gt-md="true">
+      <div fxLayout="column">
+        <a mat-button routerLink="/search" color="primary">
+          <mat-icon color="accent">search</mat-icon> Search
+        </a>
+        <a mat-button color="primary" routerLink="/cart">
+          <mat-icon matBadge="{{cartCount}}" matBadgePosition="before" matBadgeColor="accent"
+            matBadgeHidden="{{cartCount === 0}}" color="accent">shopping_cart</mat-icon>Cart
+        </a>
+        <a mat-button color="primary" routerLink="/collection">
+          <mat-icon matBadge="{{collectionCount}}" matBadgePosition="before" matBadgeColor="accent"
+            matBadgeHidden="{{collectionCount === 0}}" color="accent">collections_bookmark</mat-icon>My Collection
+        </a>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
