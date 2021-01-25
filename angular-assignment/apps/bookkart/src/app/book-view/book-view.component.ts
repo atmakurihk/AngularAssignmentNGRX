@@ -1,8 +1,10 @@
-import { CartService } from './../cart.service';
-import { BookService } from './../book.service';
+import { map, switchMap } from 'rxjs/operators';
+import { cartActions, AddToCart } from './../store/actions/cart.action';
 import { BookData } from './../models/bookData.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/state/app.state';
 
 @Component({
   selector: 'angular-assignment-book-view',
@@ -12,23 +14,31 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class BookViewComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
-    private bookService: BookService,
-    private cartService: CartService,
-    private router: Router) { }
+    private router: Router,
+    private store:Store<AppState>) { }
 
   book: BookData;
   id: number;
   ngOnInit(): void {
 
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.id = +params.id;
-      }
-    );
-    this.book = this.bookService.getbookById(this.id);
+    this.route.params.pipe(
+      map(params =>{
+        return +params.id;
+      }), switchMap(id =>{
+        this.id = id;
+        return this.store.select('books');
+      }),
+      map(booksState =>{
+        return booksState.books.find((book,index) =>{
+          return index === this.id;
+        })
+      })
+    ).subscribe((book) =>{
+      this.book = book;
+    })
   }
   addToCart(): void {
-    this.cartService.addToCart(this.book);
+    this.store.dispatch(new AddToCart(this.book));
   }
   buyNow(): void {
     this.router.navigate([this.id, 'buy']);

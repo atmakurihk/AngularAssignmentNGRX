@@ -1,3 +1,5 @@
+import { BooksEffects } from './store/effects/book.effects';
+import { appReducers } from './store/reducers/app.reducer';
 import { AppMaterialModule } from './app-material.modules';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -18,6 +20,10 @@ import { StarRatingComponent } from './shared/star-rating/star-rating.component'
 import { BillingComponent } from './billing/billing.component';
 import { CollectionComponent } from './collection/collection.component';
 import { CartComponent } from './cart/cart.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -42,7 +48,10 @@ import { CartComponent } from './cart/cart.component';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreDevtoolsModule.instrument({logOnly:environment.production}),
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([BooksEffects])
 
   ],
   providers: [],

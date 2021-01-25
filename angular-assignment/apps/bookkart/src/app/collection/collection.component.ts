@@ -1,7 +1,9 @@
 import { CollectionData } from './../models/collectionData.model';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { CollectionService } from './../collection.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/state/app.state';
 
 @Component({
   selector: 'angular-assignment-collection',
@@ -10,20 +12,20 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class CollectionComponent implements OnInit, OnDestroy {
 
-  booksCollection: CollectionData[];
-  constructor(private collectionService: CollectionService) { }
-  collectionSubscription: Subscription;
+  booksCollection: Observable<{collection:CollectionData[]}>;
+  constructor(private collectionService: CollectionService,private store:Store<AppState>) { }
+
   ngOnInit(): void {
-    this.booksCollection = this.collectionService.getCollectionData();
-    this.collectionSubscription = this.collectionService.getCollectionSubject().subscribe(
+    this.booksCollection = this.store.select('collection');
+   /*  this.collectionSubscription = this.collectionService.getCollectionSubject().subscribe(
       (bookData: CollectionData[]) => {
         this.booksCollection = bookData;
       }
-    );
+    ); */
   }
 
   ngOnDestroy(): void {
-    this.collectionSubscription.unsubscribe();
+
   }
 
 }
