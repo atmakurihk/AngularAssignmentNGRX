@@ -1,5 +1,4 @@
-import { of } from 'rxjs';
-import { CollectionService } from './../collection.service';
+import { CollectionFacade } from './../store/facades/collection.facade.service';
 import { CollectionData } from './../models/collectionData.model';
 import { AuthorTransformPipe } from './../shared/author-transform.pipe';
 import { TruncatePipe } from './../shared/truncate.pipe';
@@ -10,7 +9,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 describe('CollectionComponent', () => {
   let component: CollectionComponent;
   let fixture: ComponentFixture<CollectionComponent>;
-  let collectionService: any;
+  let collectionFacade: any;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CollectionComponent,
@@ -26,7 +25,7 @@ describe('CollectionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionComponent);
     component = fixture.componentInstance;
-    collectionService = fixture.debugElement.injector.get(CollectionService);
+    collectionFacade = fixture.debugElement.injector.get(CollectionFacade);
     fixture.detectChanges();
   });
 
@@ -35,30 +34,12 @@ describe('CollectionComponent', () => {
   });
 
   describe('Test ng on init', () => {
-    it('should subscribe to book collection', () => {
-      const app = fixture.componentInstance;
-      const collectionValue: CollectionData[] = [];
-      const collectionSpy = spyOn(collectionService, 'getCollectionSubject').and.returnValue(of(collectionValue));
-      fixture.detectChanges();
-      expect(app.booksCollection.length).toBe(0);
-    });
 
     it('should load intitial collection data', () => {
       const app = fixture.componentInstance;
       const collectionValue: CollectionData[] = [];
-      const collectionValueSpy = spyOn(collectionService, 'getCollectionData').and.returnValue(collectionValue);
       fixture.detectChanges();
-      expect(app.booksCollection.length).toBe(0);
-    });
-  });
-
-  describe('Test on componenet destroy', () => {
-    it('unsubscribe on destroy', () => {
-      const app = fixture.componentInstance;
-      const subscription = app.collectionSubscription;
-      const subSpy = spyOn(subscription, 'unsubscribe');
-      app.ngOnDestroy();
-      expect(subSpy).toHaveBeenCalledWith();
+      expect(app.booksCollection).toBeTruthy();
     });
   });
 });

@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { GetBooks } from '../store/actions/book.actions';
-import { SetSearch } from '../store/actions/search.action';
-import { AppState } from '../store/state/app.state';
+import { SearchFacade } from './../store/facades/search.facade.service';
+import { BooksFacadeService } from './../store/facades/books.facade.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'angular-assignment-search',
@@ -12,11 +10,12 @@ import { AppState } from '../store/state/app.state';
 export class SearchComponent {
 
   searchString = '';
-  constructor(private store: Store<AppState>) { }
+  constructor(private booksFacade: BooksFacadeService,
+    private searchFacade: SearchFacade) { }
 
   searchBooks(): void {
 
-    this.store.dispatch(new SetSearch(this.searchString));
-    this.store.dispatch(new GetBooks(this.searchString));
+    this.searchFacade.setSearch(this.searchString);
+    this.booksFacade.getBooks(this.searchString);
   }
 }

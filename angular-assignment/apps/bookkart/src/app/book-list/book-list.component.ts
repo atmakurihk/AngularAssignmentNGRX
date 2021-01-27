@@ -1,9 +1,7 @@
-import { BookService } from './../book.service';
+import { BooksFacadeService } from './../store/facades/books.facade.service';
 import { BookData } from './../models/bookData.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from '../store/state/app.state';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'angular-assignment-book-list',
@@ -15,10 +13,10 @@ export class BookListComponent implements OnInit {
   books: Observable<{ books: BookData[] }>;
 
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private bookFacade: BooksFacadeService) { }
 
   ngOnInit(): void {
-    this.books = this.store.select('books');
+    this.books = this.bookFacade.books;
   }
 
 }

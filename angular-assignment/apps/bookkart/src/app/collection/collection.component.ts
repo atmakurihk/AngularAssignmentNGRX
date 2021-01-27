@@ -1,31 +1,20 @@
+import { CollectionFacade } from './../store/facades/collection.facade.service';
 import { CollectionData } from './../models/collectionData.model';
-import { Subscription, Observable } from 'rxjs';
-import { CollectionService } from './../collection.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from '../store/state/app.state';
+import {  Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'angular-assignment-collection',
   templateUrl: './collection.component.html',
   styleUrls: ['./collection.component.scss']
 })
-export class CollectionComponent implements OnInit, OnDestroy {
+export class CollectionComponent implements OnInit {
 
-  booksCollection: Observable<{collection:CollectionData[]}>;
-  constructor(private collectionService: CollectionService,private store:Store<AppState>) { }
+  booksCollection: Observable<{ collection: CollectionData[] }>;
+  constructor(private collectionFacade: CollectionFacade) { }
 
   ngOnInit(): void {
-    this.booksCollection = this.store.select('collection');
-   /*  this.collectionSubscription = this.collectionService.getCollectionSubject().subscribe(
-      (bookData: CollectionData[]) => {
-        this.booksCollection = bookData;
-      }
-    ); */
-  }
-
-  ngOnDestroy(): void {
-
+    this.booksCollection = this.collectionFacade.booksCollection;
   }
 
 }

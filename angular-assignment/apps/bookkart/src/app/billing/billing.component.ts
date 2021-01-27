@@ -1,4 +1,6 @@
-import { SaveUserAction } from './../store/actions/userDetails.action';
+import { UserFacade } from './../store/facades/user.facade.service';
+import { CartFacade } from './../store/facades/cart.facade.service';
+import { BooksFacadeService } from './../store/facades/books.facade.service';
 import { CollectionData } from './../models/collectionData.model';
 import { map, switchMap } from 'rxjs/operators';
 import { BookData } from './../models/bookData.model';
@@ -6,10 +8,7 @@ import { BillingAddress } from './../models/billingAddress.model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from '../store/state/app.state';
-import { AddBookToCollection, AddCartToCollection } from '../store/actions/collection.action';
-import { ClearCart } from '../store/actions/cart.action';
+import { CollectionFacade } from '../store/facades/collection.facade.service';
 
 @Component({
   selector: 'angular-assignment-billing',
@@ -23,7 +22,10 @@ export class BillingComponent implements OnInit {
   billingAddress: BillingAddress = null;
   booksInCart: BookData[];
   constructor(private route: ActivatedRoute,
-    private store: Store<AppState>,
+    private booksFacade: BooksFacadeService,
+    private collectionFacade: CollectionFacade,
+    private cartFacade: CartFacade,
+    private userFacade: UserFacade,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -34,7 +36,7 @@ export class BillingComponent implements OnInit {
         return +params.id;
       }), switchMap(id => {
         this.id = id;
-        return this.store.select('books');
+        return this.booksFacade.books;
       }), map(bookState => {
         return bookState.books.find((book, index) => {
           return index === this.id
@@ -57,17 +59,15 @@ export class BillingComponent implements OnInit {
   }
   submitBill(): void {
     if (!isNaN(this.id)) {
-
-      this.store.dispatch(new AddBookToCollection(new CollectionData(this.boughtBook, this.billingForm.value)));
-
+      this.collectionFacade.addToCollection(new CollectionData(this.boughtBook, this.billingForm.value));
     } else {
-      this.store.select('cart').subscribe((cartState) => {
+      this.cartFacade.books.subscribe((cartState) => {
         this.booksInCart = cartState.cart;
       })
-      this.store.dispatch(new AddCartToCollection(this.collectionUtility(this.booksInCart, this.billingForm.value)));
-      this.store.dispatch(new ClearCart());
+      this.collectionFacade.addCartToCollection(this.collectionUtility(this.booksInCart, this.billingForm.value));
+      this.cartFacade.clearCart();
     }
-    this.store.dispatch(new SaveUserAction(<BillingAddress>this.billingForm.value));
+    this.userFacade.saveUser(<BillingAddress>this.billingForm.value);
     this.router.navigate(['/collection']);
   }
 

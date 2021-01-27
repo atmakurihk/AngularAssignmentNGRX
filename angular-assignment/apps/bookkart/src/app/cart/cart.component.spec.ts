@@ -1,5 +1,4 @@
-import { of, Subscription } from 'rxjs';
-import { CartService } from './../cart.service';
+import { CartFacade } from './../store/facades/cart.facade.service';
 import { BookData } from './../models/bookData.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthorTransformPipe } from './../shared/author-transform.pipe';
@@ -12,7 +11,7 @@ import { Router } from '@angular/router';
 describe('CartComponent', () => {
   let component: CartComponent;
   let fixture: ComponentFixture<CartComponent>;
-  let cartService: any;
+  let cartFacade: any;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CartComponent,
@@ -22,18 +21,17 @@ describe('CartComponent', () => {
         CUSTOM_ELEMENTS_SCHEMA
       ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        
       ]
     })
       .compileComponents();
-
-
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartComponent);
     component = fixture.componentInstance;
-    cartService = fixture.debugElement.injector.get(CartService);
+    cartFacade = fixture.debugElement.injector.get(CartFacade);
     fixture.detectChanges();
   });
 
@@ -45,46 +43,27 @@ describe('CartComponent', () => {
     it('should subscribe to book data', () => {
       const app = fixture.componentInstance;
       const cartValue: BookData[] = [];
-      const collectionSpy = spyOn(cartService, 'getCartSubject').and.returnValue(of(cartValue));
       fixture.detectChanges();
-      expect(app.books.length).toBe(0);
+      expect(app.books).toBeTruthy();
     });
-
-    it('should load intial data of books', () => {
-      const app = fixture.componentInstance;
-      const cartValue: BookData[] = [];
-      const cartcollectionspy = spyOn(cartService, 'getBooksIncart').and.returnValue(cartValue);
-      fixture.detectChanges();
-      expect(app.books.length).toBe(0);
-    })
   });
 
   describe('test methods in cart component', () => {
     it('remove Item', () => {
       const app = fixture.componentInstance;
       const index = 1;
-      const cartRemoveSpy = spyOn(cartService, 'removeFromCart');
+      const cartRemoveSpy = spyOn(cartFacade, 'removeFromCart');
       fixture.detectChanges();
       app.removeItem(index);
       expect(cartRemoveSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('chekout', () =>{
+    it('chekout', () => {
       const app = fixture.componentInstance;
-      const routerService= fixture.debugElement.injector.get(Router);
-      const routerSpy = spyOn(routerService,'navigate');
+      const routerService = fixture.debugElement.injector.get(Router);
+      const routerSpy = spyOn(routerService, 'navigate');
       app.checkOut()
       expect(routerSpy).toHaveBeenCalledWith(["/buy"]);
     });
   });
-
-  describe('On ng destroy',() =>{
-    it('unsubscribe in destroy',() =>{
-      const app = fixture.componentInstance;
-      const subscription = app.cartDataSubscription;
-      const subSpy = spyOn(subscription,'unsubscribe');
-      app.ngOnDestroy();
-      expect(subSpy).toHaveBeenCalled();
-    });
-  })
 });

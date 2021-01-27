@@ -1,43 +1,26 @@
+import { CartFacade } from './../store/facades/cart.facade.service';
 import { Router } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BookData } from './../models/bookData.model';
-import { CartService } from './../cart.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from '../store/state/app.state';
-import { RemoveFromCart } from '../store/actions/cart.action';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'angular-assignment-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit {
 
-  constructor(private cartService: CartService,
-             private router: Router,
-             private store:Store<AppState>) { }
-  books: Observable<{cart:BookData[]}>
-  cartDataSubscription: Subscription;
+  constructor(private router: Router,
+    private cartFacade: CartFacade) { }
+  books: Observable<{ cart: BookData[] }>
   ngOnInit(): void {
-
-    this.books=this.store.select('cart');
-    //this.books = this.cartService.getBooksIncart();
-     /* this.cartDataSubscription = this.cartService.getCartSubject()
-      .subscribe((bookdata: BookData[]) => {
-        this.books = bookdata;
-      }); */
+    this.books = this.cartFacade.books;
   }
-
   removeItem(index: number) {
-    //this.cartService.removeFromCart(index);
-    this.store.dispatch(new RemoveFromCart(index));
+    this.cartFacade.removeFromCart(index);
   }
   checkOut() {
     this.router.navigate(['/buy']);
-  }
-
-  ngOnDestroy(): void {
-   /*  this.cartDataSubscription.unsubscribe(); */
   }
 }

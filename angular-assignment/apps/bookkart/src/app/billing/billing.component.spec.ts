@@ -5,27 +5,15 @@ import { BillingComponent } from './billing.component';
 
 describe('billingComponent', () => {
   let fixture: BillingComponent;
-  let bookServiceMock: any;
-  let cartServiceMock: any;
-  let collectionServiceMock: any;
+  let bookFacadeMock: any;
+  let cartFacadeMock: any;
+  let collectionFacadeMock: any;
+  let userFacadeMock:any;
   let routerMock: any;
   let routeMock: any;
 
   beforeEach(() => {
 
-    bookServiceMock = {
-      getbookById: jest.fn(),
-
-    };
-    collectionServiceMock = {
-      addToCollection: jest.fn(),
-      addCartToCollection: jest.fn()
-    };
-    cartServiceMock = {
-      getBooksIncart: jest.fn(),
-      clearCart: jest.fn()
-
-    };
     routerMock = {
       navigate: jest.fn()
     };
@@ -36,9 +24,10 @@ describe('billingComponent', () => {
 
     fixture = new BillingComponent(
       routeMock,
-      bookServiceMock,
-      cartServiceMock,
-      cartServiceMock,
+      bookFacadeMock,
+      cartFacadeMock,
+      collectionFacadeMock,
+      userFacadeMock,
       routerMock
     );
     fixture.ngOnInit();
@@ -97,8 +86,8 @@ describe('billingComponent', () => {
         mobile: '123333',
         address: 'test address',
       }
-      const collectionServiceSpy = jest.spyOn(collectionServiceMock, 'addToCollection');
-      expect(collectionServiceMock.addToCollection([bookData, billingForm]));
+      const collectionServiceSpy = jest.spyOn(collectionFacadeMock, 'addToCollection');
+      expect(collectionFacadeMock.addToCollection([bookData, billingForm]));
       expect(collectionServiceSpy).toHaveBeenLastCalledWith([bookData, billingForm]);
     });
 
@@ -110,9 +99,9 @@ describe('billingComponent', () => {
         mobile: '123333',
         address: 'test address',
       }
-      const collectionServiceSpy = jest.spyOn(collectionServiceMock, 'addCartToCollection');
-      expect(collectionServiceMock.addCartToCollection([cartdata, billingForm]));
-      expect(collectionServiceSpy).toHaveBeenLastCalledWith([cartdata, billingForm]);
+      const collectionServiceSpy = jest.spyOn(collectionFacadeMock, 'addCartToCollection');
+      expect(collectionFacadeMock.addCartToCollection([cartdata, billingForm]));
+      expect(collectionFacadeMock).toHaveBeenLastCalledWith([cartdata, billingForm]);
     });
   });
 
