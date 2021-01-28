@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollectionComponent implements OnInit {
 
-  booksCollection: Observable<{ collection: CollectionData[] }>;
+  booksCollection: Observable<CollectionData[]>;
   constructor(private collectionFacade: CollectionFacade) { }
 
   ngOnInit(): void {

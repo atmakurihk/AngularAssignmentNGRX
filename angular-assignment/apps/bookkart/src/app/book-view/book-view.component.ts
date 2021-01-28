@@ -29,7 +29,7 @@ export class BookViewComponent implements OnInit {
         return this.booksFacade.books
       }),
       map(booksState => {
-        return booksState.books.find((book, index) => {
+        return booksState.find((book, index) => {
           return index === this.id;
         })
       })

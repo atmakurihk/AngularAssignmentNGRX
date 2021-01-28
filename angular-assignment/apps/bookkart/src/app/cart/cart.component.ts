@@ -13,7 +13,7 @@ export class CartComponent implements OnInit {
 
   constructor(private router: Router,
     private cartFacade: CartFacade) { }
-  books: Observable<{ cart: BookData[] }>
+  books: Observable<BookData[]>
   ngOnInit(): void {
     this.books = this.cartFacade.books;
   }

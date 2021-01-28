@@ -1,6 +1,6 @@
 <div class="content">
   <div fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center">
-    <div fxFlex="50%" *ngFor="let book of (booksCollection|async).collection;let i =index">
+    <div fxFlex="50%" *ngFor="let book of (booksCollection|async);let i =index">
       <mat-card>
         <mat-card-header>
           <mat-card-title>{{book.bookData.volumeInfo.title}}</mat-card-title>

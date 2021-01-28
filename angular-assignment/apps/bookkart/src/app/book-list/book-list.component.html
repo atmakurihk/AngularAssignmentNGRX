@@ -1,5 +1,5 @@
 <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayout.xs="column">
-  <div fxFlex="50%" *ngFor="let book of (books|async).books;let i =index">
+  <div fxFlex="50%" *ngFor="let book of (books|async);let i =index">
     <angular-assignment-book-item [book]="book" [index]="i">
     </angular-assignment-book-item>
   </div>

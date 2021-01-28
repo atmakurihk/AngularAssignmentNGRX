@@ -1,7 +1,8 @@
+import { selectBooks } from './../selectors/state.selector';
 import { GetBooks } from './../actions/book.actions';
 import { BookData } from './../../models/bookData.model';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Injectable } from "@angular/core";
 import { AppState } from '../state/app.state';
 
@@ -10,9 +11,9 @@ import { AppState } from '../state/app.state';
 })
 export class BooksFacadeService {
 
-  books: Observable<{ books: BookData[] }>;
+  books: Observable<BookData[]>;
   constructor(private store: Store<AppState>) {
-    this.books = this.store.select('books');
+    this.books = this.store.pipe(select(selectBooks))
   }
 
   getBooks(searchValue:string)

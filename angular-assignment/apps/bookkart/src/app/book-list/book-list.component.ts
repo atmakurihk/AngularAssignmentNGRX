@@ -10,13 +10,14 @@ import { Observable } from 'rxjs';
 })
 export class BookListComponent implements OnInit {
 
-  books: Observable<{ books: BookData[] }>;
+  books: Observable< BookData[]>;
 
 
   constructor(private bookFacade: BooksFacadeService) { }
 
   ngOnInit(): void {
     this.books = this.bookFacade.books;
+    this.books.subscribe((bookData) => console.log("bookdata",bookData));
   }
 
 }

@@ -38,7 +38,7 @@ export class BillingComponent implements OnInit {
         this.id = id;
         return this.booksFacade.books;
       }), map(bookState => {
-        return bookState.books.find((book, index) => {
+        return bookState.find((book, index) => {
           return index === this.id
         })
       })
@@ -62,7 +62,7 @@ export class BillingComponent implements OnInit {
       this.collectionFacade.addToCollection(new CollectionData(this.boughtBook, this.billingForm.value));
     } else {
       this.cartFacade.books.subscribe((cartState) => {
-        this.booksInCart = cartState.cart;
+        this.booksInCart = cartState;
       })
       this.collectionFacade.addCartToCollection(this.collectionUtility(this.booksInCart, this.billingForm.value));
       this.cartFacade.clearCart();

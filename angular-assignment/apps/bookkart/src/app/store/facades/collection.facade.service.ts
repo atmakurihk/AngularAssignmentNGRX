@@ -1,7 +1,8 @@
+import { selectCollection } from './../selectors/state.selector';
 import { CollectionData } from './../../models/collectionData.model';
 import { Observable } from 'rxjs';
 import { Injectable } from "@angular/core";
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AppState } from '../state/app.state';
 import { AddBookToCollection, AddCartToCollection } from '../actions/collection.action';
 
@@ -10,9 +11,9 @@ import { AddBookToCollection, AddCartToCollection } from '../actions/collection.
 })
 export class CollectionFacade {
 
-  booksCollection: Observable<{ collection: CollectionData[] }>;
+  booksCollection: Observable<CollectionData[]>;
   constructor(private store: Store<AppState>) {
-    this.booksCollection = this.store.select('collection');
+    this.booksCollection = this.store.pipe(select(selectCollection))
   }
 
   addToCollection(collection: CollectionData) {
